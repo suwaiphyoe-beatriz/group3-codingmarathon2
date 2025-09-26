@@ -24,7 +24,6 @@ const getAllJobs = async (req, res) => {
   }
 };
 
-
 const createJob = async (req, res) => {
   try {
     const user_id = req.user._id;

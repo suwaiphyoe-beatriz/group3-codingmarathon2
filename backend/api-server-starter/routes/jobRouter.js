@@ -14,8 +14,6 @@ const requireAuth = require("../middleware/requireAuth");
 router.get("/", getAllJobs);
 router.get("/:id", getJobById);
 
-
-
 router.post("/",requireAuth, createJob);
 router.put("/:id",requireAuth, updateJob);
 router.delete("/:id",requireAuth, deleteJob);
