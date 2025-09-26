@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+//import { useNavigate } from "react-router-dom";
+//import { toast } from "react-toastify";
+import useSignup from "../hooks/useSignup";
 
 const SignUpPage = () => {
   // State for form fields
@@ -12,10 +13,11 @@ const SignUpPage = () => {
   const [dob, setDob] = useState(""); // Date of Birth
   const [membershipStatus, setMembershipStatus] = useState("Standard");
 
-  const navigate = useNavigate();
+  const { signup, loading } = useSignup();
+  //const navigate = useNavigate();
 
   // Placeholder function for handling signup logic
-  const handleSignUp = async (userData) => {
+  /*const handleSignUp = async (userData) => {
     try {
       // const res = await fetch("/api/user", {
       const res = await fetch("/api/users/signup", {
@@ -38,6 +40,7 @@ const SignUpPage = () => {
     // console.log("User Data for Signup:", userData);
     return true;
   };
+*/
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -51,8 +54,10 @@ const SignUpPage = () => {
       date_of_birth: dob,
       membership_status: membershipStatus,
     };
+    await signup(userData);
+};
 
-    const success = await handleSignUp(userData);
+/*    const success = await handleSignUp(userData);
 
     if (success) {
       toast.success("Account Created Successfully!");
@@ -60,6 +65,7 @@ const SignUpPage = () => {
       return navigate("/login");
     }
   };
+*/
 
   return (
     <section className="bg-indigo-50">

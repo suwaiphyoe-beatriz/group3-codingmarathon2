@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+//import { useNavigate } from "react-router-dom";
+//import { toast } from "react-toastify";
+import useLogin from "../hooks/useLogin";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, loading } = useLogin();
 
-  const navigate = useNavigate();
+/*  const navigate = useNavigate();
 
   const handleLogin = async (credentials) => {
 
@@ -37,11 +39,14 @@ const LoginPage = () => {
     // await new Promise(resolve => setTimeout(resolve, 500));
     return true;
   };
+*/
 
   const submitForm = async (e) => {
     e.preventDefault();
+    await login({ email, password });
+  };
 
-    const credentials = {
+ /*   const credentials = {
       email,
       password,
     };
@@ -53,6 +58,8 @@ const LoginPage = () => {
       return navigate("/");
     }
   };
+
+  */
 
   return (
     <section className="bg-indigo-50">
