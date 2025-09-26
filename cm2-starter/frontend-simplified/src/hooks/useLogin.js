@@ -22,6 +22,9 @@ const useLogin = () => {
       const data = await res.json();
       console.log("Login successful:", data);
 
+      localStorage.setItem('authToken', data.token); // 将 Token 存储在本地存储中
+
+
       toast.success("Login Successful!");
       navigate("/"); // 登录成功后跳转首页
       return true;

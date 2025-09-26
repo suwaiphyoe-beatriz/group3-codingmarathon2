@@ -28,15 +28,25 @@ const AddJobPage = () => {
   // };
 
   const addJob = async (newJob) => {
+    const token = localStorage.getItem('authToken');
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
     try {
       const res = await fetch("/api/jobs", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify(newJob),
       });
       if (!res.ok) {
+        if (res.status === 401) {
+          throw new Error("Unauthorized. Please login to add a job.");
+        }
         throw new Error("Failed to add job");
       }
     } catch (error) {
@@ -47,7 +57,7 @@ const AddJobPage = () => {
     return true;
   };
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
 
     const newJob = {
@@ -64,11 +74,12 @@ const AddJobPage = () => {
       },
     };
 
-    addJob(newJob);
+    const success = await addJob(newJob);
 
-    toast.success("Job Added Successfully");
-
-    return navigate("/jobs");
+    if (success) {
+      toast.success("Job Added Successfully");
+      return navigate("/jobs");
+    }
   };
 
   return (

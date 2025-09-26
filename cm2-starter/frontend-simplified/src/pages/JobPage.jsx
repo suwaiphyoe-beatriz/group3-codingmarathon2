@@ -21,22 +21,42 @@ const JobPage = () => {
 
   const deleteJob = async (id) => {
     try {
+      const token = localStorage.getItem('authToken');
+      const headers = {};
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
       const res = await fetch(`/api/jobs/${id}`, {
         method: "DELETE",
+        headers: headers,
       });
       if (!res.ok) {
+        if (res.status === 401) {
+          throw new Error("Unauthorized. Please login to delete a job.");
+        }
         throw new Error("Failed to delete job");
       }
+      return true;
     } catch (error) {
       console.error("Error deleting job:", error);
       toast.error("Failed to delete the job");
+      return false;
     }
   };
 
   useEffect(() => {
     const fetchJob = async () => {
+      const token = localStorage.getItem('authToken');
+      const headers = {};
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
       try {
-        const res = await fetch(`/api/jobs/${id}`);
+        const res = await fetch(`/api/jobs/${id}`, {
+          headers,
+        });
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }
@@ -52,18 +72,18 @@ const JobPage = () => {
     fetchJob();
   }, [id]);
 
-  const onDeleteClick = (jobId) => {
+  const onDeleteClick = async (jobId) => {
     const confirm = window.confirm(
       "Are you sure you want to delete this listing?"
     );
 
     if (!confirm) return;
 
-    deleteJob(jobId);
-
-    toast.success("Job deleted successfully");
-
-    navigate("/jobs");
+    const success = await deleteJob(jobId);
+    if (success === true) {
+      toast.success("Job deleted successfully");
+      navigate("/jobs");
+    }
   };
 
   if (loading) return <p>Loading...</p>;

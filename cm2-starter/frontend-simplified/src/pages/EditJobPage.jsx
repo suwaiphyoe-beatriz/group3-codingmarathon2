@@ -33,11 +33,17 @@ const EditJobPage = () => {
 
   const updateJob = async (job) => {
     try {
+      const token = localStorage.getItem('authToken');
+      const headers = {
+        "Content-Type": "application/json"
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`; // 使用 Bearer 方案
+      }
+
       const res = await fetch(`/api/jobs/${job.id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify(job),
       });
       if (!res.ok) throw new Error("Failed to update job");
@@ -51,9 +57,17 @@ const EditJobPage = () => {
   // Fetch job data
   useEffect(() => {
     const fetchJob = async () => {
+      const token = localStorage.getItem('authToken');
+      const headers = {};
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
       try {
-        const res = await fetch(`/api/jobs/${id}`);
+        const res = await fetch(`/api/jobs/${id}`, { headers });
         if (!res.ok) {
+          if (res.status === 401) {
+            throw new Error("Unauthorized. Please login to view/edit this job.");
+          }
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
@@ -71,6 +85,7 @@ const EditJobPage = () => {
         setContactPhone(data.company.contactPhone);
       } catch (error) {
         console.error("Failed to fetch job:", error);
+        setJob(null);
       } finally {
         setLoading(false); // Stop loading after fetch
       }
