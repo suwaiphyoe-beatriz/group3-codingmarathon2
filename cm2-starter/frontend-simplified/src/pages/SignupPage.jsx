@@ -17,8 +17,8 @@ const SignUpPage = () => {
   // Placeholder function for handling signup logic
   const handleSignUp = async (userData) => {
     try {
-      const res = await fetch("/api/user", {
-        // const res = await fetch("/api/users/signup", {
+      // const res = await fetch("/api/user", {
+      const res = await fetch("/api/users/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const SignUpPage = () => {
     }
 
     // console.log("User Data for Signup:", userData);
-    return true; // Mock success
+    return true;
   };
 
   const submitForm = async (e) => {
@@ -46,10 +46,10 @@ const SignUpPage = () => {
       name,
       email,
       password,
-      phone,
+      phone_number: phone,
       gender,
-      dateOfBirth: dob,
-      membershipStatus,
+      date_of_birth: dob,
+      membership_status: membershipStatus,
     };
 
     const success = await handleSignUp(userData);

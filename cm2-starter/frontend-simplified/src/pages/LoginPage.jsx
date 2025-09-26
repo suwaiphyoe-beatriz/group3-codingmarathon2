@@ -11,9 +11,8 @@ const LoginPage = () => {
   const handleLogin = async (credentials) => {
 
     try {
-      const res = await fetch("/api/user", {
-        // const res = await fetch("/api/users/login", {
-
+      // const res = await fetch("/api/user", {
+      const res = await fetch("/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
