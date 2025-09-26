@@ -7,7 +7,7 @@ const jobRouter = require("./routes/jobRouter");
 const { unknownEndpoint,errorHandler } = require("./middleware/customMiddleware");
 const connectDB = require("./config/db");
 const cors = require("cors");
-
+const requireAuth  = require('./middleware/requireAuth');
 // Middlewares
 app.use(cors())
 app.use(express.json());
