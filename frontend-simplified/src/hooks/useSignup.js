@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const useSignup = () => {
   const [loading, setLoading] = useState(false);
@@ -9,7 +10,7 @@ const useSignup = () => {
   const signup = async (userData) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/users/signup", {
+      const res = await fetch(`${API_BASE_URL}/api/users/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),

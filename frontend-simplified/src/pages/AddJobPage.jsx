@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const AddJobPage = () => {
   const [title, setTitle] = useState("");
@@ -38,7 +39,7 @@ const AddJobPage = () => {
     }
 
     try {
-      const res = await fetch("/api/jobs", {
+      const res = await fetch(`${API_BASE_URL}/api/jobs`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(newJob),

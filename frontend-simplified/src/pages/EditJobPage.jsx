@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const EditJobPage = () => {
   const [job, setJob] = useState(null); // Initialize job state
@@ -41,7 +42,7 @@ const EditJobPage = () => {
         headers['Authorization'] = `Bearer ${token}`; // 使用 Bearer 方案
       }
 
-      const res = await fetch(`/api/jobs/${job.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/jobs/${job.id}`, {
         method: "PUT",
         headers: headers,
         body: JSON.stringify(job),
@@ -63,7 +64,7 @@ const EditJobPage = () => {
         headers['Authorization'] = `Bearer ${token}`;
       }
       try {
-        const res = await fetch(`/api/jobs/${id}`, { headers });
+        const res = await fetch(`${API_BASE_URL}/api/jobs/${id}`, { headers });
         if (!res.ok) {
           if (res.status === 401) {
             throw new Error("Unauthorized. Please login to view/edit this job.");

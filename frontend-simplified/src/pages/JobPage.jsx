@@ -3,6 +3,7 @@ import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const JobPage = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const JobPage = () => {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const res = await fetch(`/api/jobs/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/jobs/${id}`, {
         method: "DELETE",
         headers: headers,
       });
@@ -54,7 +55,7 @@ const JobPage = () => {
       }
 
       try {
-        const res = await fetch(`/api/jobs/${id}`, {
+        const res = await fetch(`${API_BASE_URL}/api/jobs/${id}`, {
           headers,
         });
         if (!res.ok) {
