@@ -8,11 +8,14 @@ const {
   deleteJob,
 } = require("../controllers/jobControllers");
 
-//const requireAuth = require("../middleware/requireAuth");
-//router.use(requireAuth);
+const requireAuth = require("../middleware/requireAuth");
+
 // Public routes
 router.get("/", getAllJobs);
 router.get("/:id", getJobById);
+
+router.use(requireAuth);
+
 router.post("/", createJob);
 router.put("/:id", updateJob);
 router.delete("/:id", deleteJob);
